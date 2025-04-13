@@ -17,7 +17,7 @@ def addcontent(div_ids, soup, dropdown):
     Backgrounds = ["background-color","background-image",]
     Images = ["img"]
     padding = ["padding,"]
-    HTMLstuff= ["HTML insert","buttons","image buttons","lists","Styled buttons"]
+    HTMLstuff= ["HTML insert","buttons","image buttons","lists","styled buttons"]
     audiostuff = ["audio"]
 
     dropdowncontent = ttk.Combobox(addcontent, values=overalltext, width=25)
@@ -125,7 +125,7 @@ def addcontent(div_ids, soup, dropdown):
             paddingy.pack(pady=20)
 
             paddingy1 = ttk.Entry(addcontent1)
-            paddingy1.insert(0, "850")
+            paddingy1.insert(0, "600")
             paddingy1.pack(pady=20)
             
             paddingx = ttk.Entry(addcontent1)
@@ -133,7 +133,7 @@ def addcontent(div_ids, soup, dropdown):
             paddingx.pack(pady=20)
 
             paddingx1 = ttk.Entry(addcontent1)
-            paddingx1.insert(0, "850")
+            paddingx1.insert(0, "600")
             paddingx1.pack(pady=20)
                 
             wherepad = ttk.Combobox(addcontent1, values=whereback, width=25)
@@ -188,6 +188,20 @@ def addcontent(div_ids, soup, dropdown):
             soundsettings1.set("set autoplay")  # Default text
             soundsettings1.pack(pady=20)
     
+        if OPTION == "styled buttons":
+            print("stylbutton")
+            colours = ['red','orange','yellow','green','blue','purple']
+            colourbutset = ttk.Combobox(addcontent1, values=colours, width=25)
+            colourbutset.set("set autoplay")  # Default text
+            colourbutset.pack(pady=20)
+
+            outlinecol = ttk.Combobox(addcontent1, values=colours, width=25)
+            outlinecol.set("set autoplay")  # Default text
+            outlinecol.pack(pady=20)
+
+            buttontextstyled = ttk.Entry(addcontent1)
+            buttontextstyled.pack(pady=20)
+
 
             
 
@@ -466,6 +480,19 @@ def addcontent(div_ids, soup, dropdown):
                 audiotag.append(sourcetag)
                 
                 soup.body.append(audiotag)
+                with open('output1.html', 'w',encoding='utf-8') as file:
+                    file.write(soup.prettify())
+            if OPTION == "styled buttons":
+                nonlocal colourbutset
+                nonlocal outlinecol
+                nonlocal buttontextstyled
+
+                div = soup.find("div", id=selectedid)
+                button = soup.new_tag('button')
+                button.string = buttontextstyled.get()
+                button['style'] = f'background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
+                div.append(button)
+
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
 
