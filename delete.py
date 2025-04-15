@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+from tkinter import ttk
 def delete1(ttk, div_ids):
     print("skibdi")
     Deletewindow = ttk.Window(themename="cosmo")
