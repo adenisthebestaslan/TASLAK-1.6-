@@ -192,16 +192,18 @@ def addcontent(div_ids, soup, dropdown):
             print("stylbutton")
             colours = ['red','orange','yellow','green','blue','purple']
             colourbutset = ttk.Combobox(addcontent1, values=colours, width=25)
-            colourbutset.set("set autoplay")  # Default text
+            colourbutset.set("button colour")  # Default text
             colourbutset.pack(pady=20)
 
             outlinecol = ttk.Combobox(addcontent1, values=colours, width=25)
-            outlinecol.set("set autoplay")  # Default text
+            outlinecol.set("outline")  # Default text
             outlinecol.pack(pady=20)
 
             buttontextstyled = ttk.Entry(addcontent1)
             buttontextstyled.pack(pady=20)
 
+            styledbuttonlink = ttk.Entry(addcontent1)
+            styledbuttonlink.pack(pady=20)
 
             
 
@@ -488,10 +490,18 @@ def addcontent(div_ids, soup, dropdown):
                 nonlocal buttontextstyled
 
                 div = soup.find("div", id=selectedid)
+                linkbutton = soup.new_tag('a')
+                styllinkbutton = styledbuttonlink.get()
+                linkbutton['href'] = styllinkbutton
                 button = soup.new_tag('button')
                 button.string = buttontextstyled.get()
-                button['style'] = f'background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
-                div.append(button)
+                styllinkbutton = styledbuttonlink.get()
+                button['style'] = f' background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
+                linkbutton.append(button)
+                div.append(linkbutton)
+
+
+
 
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
