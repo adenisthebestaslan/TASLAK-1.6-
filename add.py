@@ -17,7 +17,7 @@ def addcontent(div_ids, soup, dropdown):
     Backgrounds = ["background-color","background-image",]
     Images = ["img"]
     padding = ["padding,"]
-    HTMLstuff= ["HTML insert","buttons","image buttons","lists","styled buttons"]
+    HTMLstuff= ["HTML insert","buttons","image buttons","lists","styled buttons","text boxes"]
     audiostuff = ["audio"]
 
     dropdowncontent = ttk.Combobox(addcontent, values=overalltext, width=25)
@@ -205,11 +205,26 @@ def addcontent(div_ids, soup, dropdown):
             styledbuttonlink = ttk.Entry(addcontent1)
             styledbuttonlink.pack(pady=20)
 
+        
+        if OPTION == "text boxes":
+
+            colours = ['red','orange','yellow','green','blue','purple']
+            colourboxset = ttk.Combobox(addcontent1, values=colours, width=25)
+            colourboxset.set("button colour")  # Default text
+            colourboxset.pack(pady=20)
+
+            outlinecolbox = ttk.Combobox(addcontent1, values=colours, width=25)
+            outlinecolbox.set("outline")  # Default text
+            outlinecolbox.pack(pady=20)
+
+            textboxcontent = ttk.Entry(addcontent1)
+            textboxcontent.pack(pady=20)
             
-
-
-
-
+            width = ttk.Entry(addcontent1)
+            width.pack(pady=20)
+            
+            height = ttk.Entry(addcontent1)
+            height.pack(pady=20)
             
             
         def submitbutton(soup=soup):
@@ -488,6 +503,8 @@ def addcontent(div_ids, soup, dropdown):
                 nonlocal colourbutset
                 nonlocal outlinecol
                 nonlocal buttontextstyled
+                nonlocal width
+                nonlocal height
 
                 div = soup.find("div", id=selectedid)
                 linkbutton = soup.new_tag('a')
@@ -498,14 +515,39 @@ def addcontent(div_ids, soup, dropdown):
                 styllinkbutton = styledbuttonlink.get()
                 button['style'] = f' background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
                 linkbutton.append(button)
-                div.append(linkbutton)
+                div = soup.find("div", id=selectedid)
 
 
 
 
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
+            if OPTION == "text boxes":
+                div = soup.find("div", id=selectedid)
+                print("test2")
+                nonlocal colourboxset
+                nonlocal outlinecolbox
+                csscontent = f"""
+                .styled-text {{
+                width: {width} px;
+                height: {height} px;
+                border: {outlinecol} 2px solid ;
+                background-color: {colourboxset};
+                color: black;
+                font-size: 16px;
+                padding: 5px;
+                border-radius: 5px;
+                  }}
+                  """
+                textbox = soup.new_tag("style")
+                textbox.append(csscontent)
+                div = soup.find("div", id=selectedid)
+                div.append(textbox)
+                with open('output1.html', 'w',encoding='utf-8') as file:
+                    file.write(soup.prettify())
 
+
+            
 #  0000000000 an army of zeros.
 
 
