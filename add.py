@@ -516,9 +516,7 @@ def addcontent(div_ids, soup, dropdown):
                 button['style'] = f' background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
                 linkbutton.append(button)
                 div = soup.find("div", id=selectedid)
-
-
-
+                div.append(linkbutton)
 
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
