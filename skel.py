@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup, Comment
 from tkinter import filedialog
 from div import creatediv
 from add import addcontent
-# max 5 files 
+from style import position
 
 #Remember to put font before background
 try:
@@ -118,6 +118,9 @@ seedivbutton.pack(pady=20)
 
 deletebodyinfd = ttk.Button(root, text="Delete body info", bootstyle=SUCCESS, command=deletebodcont)
 deletebodyinfd.pack(pady=20)
+
+ButtonStyle = ttk.Button(root, text="position", bootstyle=SUCCESS, command=lambda: position(div_ids,soup))
+ButtonStyle.pack(pady=20)
 
 
 #remember to keep all your varibles in lowercase
