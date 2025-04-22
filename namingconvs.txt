@@ -1,0 +1,8 @@
+write good varibles.
+dont rush.
+complete one problem before going to another,
+
+___________________________
+varible naming conventions
+function purpouse-
+    what it is in-(function, py file)
