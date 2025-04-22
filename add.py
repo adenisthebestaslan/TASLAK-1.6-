@@ -11,7 +11,7 @@ def addcontent(div_ids, soup, dropdown):
         
     overalltext = ["Headings","Paragraphs","Fonts"]
     textcolours = ["red","blue","green","purple","black","white"]
-    overallvisuals =["Backgrounds","Images"]
+    overallvisuals =["Backgrounds","Images","borders"]
     Headngs = ["h1","h2","h3","h4","h5","h6"]
     Paragraph = ["p","a","ul","b","i","u","comments"]
     Backgrounds = ["background-color","background-image",]
@@ -55,7 +55,8 @@ def addcontent(div_ids, soup, dropdown):
                     OPTION = dropdowncontent3.get()
                     if OPTION == "HTML Insert.":
                         OPTION = dropdowncontent4.get()
-
+        else:
+            OPTION = "paragraphs"
 
                                                 
 
@@ -218,16 +219,33 @@ def addcontent(div_ids, soup, dropdown):
             outlinecolbox.pack(pady=20)
 
             textboxcontent = ttk.Entry(addcontent1)
+            textboxcontent.set("textbox content")  # Default text
             textboxcontent.pack(pady=20)
+        
             
             width = ttk.Entry(addcontent1)
             width.pack(pady=20)
             
             height = ttk.Entry(addcontent1)
             height.pack(pady=20)
-            
+        if OPTION == "borders":
+            print("Borders")
+            SetcolorBorder = ttk.Combobox(addcontent1, values=textcolours, width=25)
+            SetcolorBorder.set("select a colour")
+            SetcolorBorder.pack(pady=20)
+
+            SetwidthBorder = ttk.Entry(addcontent1)
+            SetwidthBorder.pack(pady=20)
+
+            AvaliblepostionBorder = ["div","body"]
+            TowhereBorder= ttk.Combobox(addcontent1, values=AvaliblepostionBorder, width=25)
+            TowhereBorder.pack(pady=20)
+
+
+
             
         def submitbutton(soup=soup):
+            nonlocal outlinecol
             selectedid = dropdown.get()
             print("DIV IDS inside submit button:", div_ids)
             if OPTION == "Headings":
@@ -501,7 +519,7 @@ def addcontent(div_ids, soup, dropdown):
                     file.write(soup.prettify())
             if OPTION == "styled buttons":
                 nonlocal colourbutset
-                nonlocal outlinecol
+                
                 nonlocal buttontextstyled
                 nonlocal width
                 nonlocal height
@@ -516,10 +534,11 @@ def addcontent(div_ids, soup, dropdown):
                 button['style'] = f' background-color: {colourbutset.get()}; border: 2px solid {outlinecol.get()};'
                 linkbutton.append(button)
                 div = soup.find("div", id=selectedid)
-                div.append(linkbutton)
 
+                div.append(linkbutton)
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
+
             if OPTION == "text boxes":
                 div = soup.find("div", id=selectedid)
                 print("test2")
@@ -544,6 +563,32 @@ def addcontent(div_ids, soup, dropdown):
                 with open('output1.html', 'w',encoding='utf-8') as file:
                     file.write(soup.prettify())
 
+            if OPTION == "borders":
+                selectedColorBorder = SetcolorBorder.get() 
+                selectedWidthBorder = SetwidthBorder.get() 
+                selectedWhereBorder = TowhereBorder.get() 
+
+                if selectedWhereBorder == 'div':
+                    div = soup.find("div", id=selectedid)
+                    ExistingstyleBorders = div.get("style", "")
+                    BorderinfoStyle = f"border: {selectedWidthBorder}px dashed {selectedColorBorder};"
+                    if ExistingstyleBorders:
+                        div["style"] = f"{ExistingstyleBorders}; {BorderinfoStyle}".strip()
+                    else:
+                        div["style"] = BorderinfoStyle.strip()
+                    with open("output1.html", "w", encoding="utf-8") as file:
+                        file.write(soup.prettify())
+                elif selectedWhereBorder == 'body':
+                    StyletagBorder = soup.new_tag("style")
+                    StyletagBorder.string = f"""
+                    body {{
+                        background-color: {selectedColorBorder};
+                        border: {selectedWidthBorder}px solid #333;
+                    }}
+                    """
+                    soup.head.append(StyletagBorder)
+
+    
 
             
 #  0000000000 an army of zeros.
@@ -554,4 +599,3 @@ def addcontent(div_ids, soup, dropdown):
 
     button = ttk.Button(addcontent, text="continue", bootstyle=SUCCESS, command=nextbutton)
     button.pack(pady=20)
-
