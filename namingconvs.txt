@@ -1,7 +1,7 @@
 write good varibles.
 dont rush.
 complete one problem before going to another,
-
+try and use if and loops if you can.
 ___________________________
 varible naming conventions
 function purpouse-
