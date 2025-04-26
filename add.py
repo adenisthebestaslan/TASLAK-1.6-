@@ -55,8 +55,6 @@ def addcontent(div_ids, soup, dropdown):
                     OPTION = dropdowncontent3.get()
                     if OPTION == "HTML Insert.":
                         OPTION = dropdowncontent4.get()
-        else:
-            OPTION = "paragraphs"
 
                                                 
 
@@ -219,7 +217,6 @@ def addcontent(div_ids, soup, dropdown):
             outlinecolbox.pack(pady=20)
 
             textboxcontent = ttk.Entry(addcontent1)
-            textboxcontent.set("textbox content")  # Default text
             textboxcontent.pack(pady=20)
         
             
@@ -548,11 +545,13 @@ def addcontent(div_ids, soup, dropdown):
                 print("test2")
                 nonlocal colourboxset
                 nonlocal outlinecolbox
+                nonlocal width
+                nonlocal height
                 csscontent = f"""
                 .styled-text {{
                 width: {width} px;
                 height: {height} px;
-                border: {outlinecol} 2px solid ;
+                border: {outlinecolbox} 2px solid ;
                 background-color: {colourboxset};
                 color: black;
                 font-size: 16px;
@@ -603,3 +602,4 @@ def addcontent(div_ids, soup, dropdown):
 
     button = ttk.Button(addcontent, text="continue", bootstyle=SUCCESS, command=nextbutton)
     button.pack(pady=20)
+
