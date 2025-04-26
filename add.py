@@ -241,6 +241,10 @@ def addcontent(div_ids, soup, dropdown):
             TowhereBorder= ttk.Combobox(addcontent1, values=AvaliblepostionBorder, width=25)
             TowhereBorder.pack(pady=20)
 
+            TypesofOutlinesBorder = ["solid","dashed"]
+            OutlinetypeaplliedBorder= ttk.Combobox(addcontent1, values=TypesofOutlinesBorder, width=25)
+            OutlinetypeaplliedBorder.pack(pady=20)
+
 
 
             
@@ -571,7 +575,7 @@ def addcontent(div_ids, soup, dropdown):
                 if selectedWhereBorder == 'div':
                     div = soup.find("div", id=selectedid)
                     ExistingstyleBorders = div.get("style", "")
-                    BorderinfoStyle = f"border: {selectedWidthBorder}px dashed {selectedColorBorder};"
+                    BorderinfoStyle = f"border: {selectedWidthBorder}px {OutlinetypeaplliedBorder.get()} {selectedColorBorder};"
                     if ExistingstyleBorders:
                         div["style"] = f"{ExistingstyleBorders}; {BorderinfoStyle}".strip()
                     else:
